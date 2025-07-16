@@ -130,6 +130,26 @@ Given the following dates, compute the difference in **months** and **weeks** be
 sample_dates <- c("2018-03-15", "2020-07-20", "2023-01-10", "2025-09-05")
 ```
 
+```{r}
+sample_dates <- c("2018-03-15", "2020-07-20", "2023-01-10", "2025-09-05")
+
+dates <- as.Date(sample_dates)
+
+diff_days <- diff(dates)
+
+diff_weeks <- as.numeric(diff_days) / 7
+
+diff_months <- as.numeric(diff_days) / 30.44  
+
+data.frame(
+  From = sample_dates[-length(sample_dates)],
+  To = sample_dates[-1],
+  Difference_Days = as.numeric(diff_days),
+  Difference_Weeks = round(diff_weeks, 2),
+  Difference_Months = round(diff_months, 2)
+)
+```
+
 ### Question 7: Higher-Order Functions with purrr
 
 Using `map()` and `map_dbl()`, compute the **mean**, **median**, and **standard deviation** for each numeric vector in the following list:
