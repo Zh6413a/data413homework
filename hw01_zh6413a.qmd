@@ -91,3 +91,17 @@ pacman::p_load(pacman, tidyverse,
     We can not observe any patter that would indicate a relationship on the scatter plot. The correlation statistic is -0.01767153 which indicates a very small negative relationship. In conclusion there is no significant relationship.
 
 -   **Problem 3**: Find the 10 days of the year that have the highest median departure delay, then select all flights from those 10 days.
+
+```{r}
+flights$date <- as.Date(paste(flights$year, flights$month, flights$day, sep = "-"))
+
+temp_summary <- summarize(group_by(flights, date), median_dep_delay = median(dep_delay, na.rm = TRUE))
+temp_summary <- arrange(temp_summary, desc(median_dep_delay))
+top_10_days <- slice_head(temp_summary, n = 10)
+
+top_10_days
+
+flights_top10days <- filter(flights, date %in% top_10_days$date)
+
+flights_top10days
+```
