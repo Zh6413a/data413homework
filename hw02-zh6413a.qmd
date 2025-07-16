@@ -189,6 +189,30 @@ Given a list of mixed date formats, use `map()` and `possibly()` from `purrr` to
 date_strings <- list("2023-06-10", "2022/12/25", "15-Aug-2021", "InvalidDate")
 ```
 
+```{r}
+library(purrr)
+library(lubridate)
+
+date_strings <- list("2023-06-10", "2022/12/25", "15-Aug-2021", "InvalidDate")
+
+safe_parse_date <- possibly(function(x) {
+  parse_date_time(x, orders = c("ymd", "y/m/d", "d-b-Y"))
+}, otherwise = NA)
+
+parsed_dates <- map(date_strings, safe_parse_date)
+
+month_names <- map_chr(parsed_dates, function(x) {
+  if (is.na(x)) NA_character_ else month(x, label = TRUE, abbr = FALSE)
+})
+
+data.frame(
+  Original_String = unlist(date_strings),
+  Parsed_Date = as.character(parsed_dates),
+  Month_Name = month_names
+)
+
+```
+
 ## Submission
 
 -   Save your Quarto file after completing each problem, render it, then stage and commit the changes.\
