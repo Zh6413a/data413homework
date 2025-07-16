@@ -337,16 +337,41 @@ Attaching package: 'lubridate'</code></pre>
 <h3 class="anchored" data-anchor-id="question-6">Question 6:</h3>
 <p>Given the following dates, compute the difference in <strong>months</strong> and <strong>weeks</strong> between each consecutive pair.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>sample_dates <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"2018-03-15"</span>, <span class="st">"2020-07-20"</span>, <span class="st">"2023-01-10"</span>, <span class="st">"2025-09-05"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>sample_dates <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"2018-03-15"</span>, <span class="st">"2020-07-20"</span>, <span class="st">"2023-01-10"</span>, <span class="st">"2025-09-05"</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>dates <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(sample_dates)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>diff_days <span class="ot">&lt;-</span> <span class="fu">diff</span>(dates)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>diff_weeks <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(diff_days) <span class="sc">/</span> <span class="dv">7</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>diff_months <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(diff_days) <span class="sc">/</span> <span class="fl">30.44</span>  </span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">From =</span> sample_dates[<span class="sc">-</span><span class="fu">length</span>(sample_dates)],</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">To =</span> sample_dates[<span class="sc">-</span><span class="dv">1</span>],</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">Difference_Days =</span> <span class="fu">as.numeric</span>(diff_days),</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">Difference_Weeks =</span> <span class="fu">round</span>(diff_weeks, <span class="dv">2</span>),</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">Difference_Months =</span> <span class="fu">round</span>(diff_months, <span class="dv">2</span>)</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        From         To Difference_Days Difference_Weeks Difference_Months
+1 2018-03-15 2020-07-20             858           122.57             28.19
+2 2020-07-20 2023-01-10             904           129.14             29.70
+3 2023-01-10 2025-09-05             969           138.43             31.83</code></pre>
+</div>
+</div>
 </section>
 <section id="question-7-higher-order-functions-with-purrr" class="level3">
 <h3 class="anchored" data-anchor-id="question-7-higher-order-functions-with-purrr">Question 7: Higher-Order Functions with purrr</h3>
 <p>Using <code>map()</code> and <code>map_dbl()</code>, compute the <strong>mean</strong>, <strong>median</strong>, and <strong>standard deviation</strong> for each numeric vector in the following list:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>num_lists <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">16</span>, <span class="dv">25</span>, <span class="dv">36</span>, <span class="dv">49</span>), <span class="fu">c</span>(<span class="fl">2.3</span>, <span class="fl">5.7</span>, <span class="fl">8.1</span>, <span class="fl">11.4</span>), <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>num_lists <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">16</span>, <span class="dv">25</span>, <span class="dv">36</span>, <span class="dv">49</span>), <span class="fu">c</span>(<span class="fl">2.3</span>, <span class="fl">5.7</span>, <span class="fl">8.1</span>, <span class="fl">11.4</span>), <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="question-8-combining-lubridate-and-purrr" class="level3">
 <h3 class="anchored" data-anchor-id="question-8-combining-lubridate-and-purrr">Question 8: Combining lubridate and purrr</h3>
 <p>Given a list of mixed date formats, use <code>map()</code> and <code>possibly()</code> from <code>purrr</code> to safely convert them to <strong>Date</strong> format and extract the <strong>month name</strong>.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>date_strings <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"2023-06-10"</span>, <span class="st">"2022/12/25"</span>, <span class="st">"15-Aug-2021"</span>, <span class="st">"InvalidDate"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>date_strings <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"2023-06-10"</span>, <span class="st">"2022/12/25"</span>, <span class="st">"15-Aug-2021"</span>, <span class="st">"InvalidDate"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="submission" class="level2">
