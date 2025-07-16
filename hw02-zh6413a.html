@@ -236,21 +236,117 @@ Also use R code to round your answer to the nearest tenth</p>
 <section id="question-5" class="level3">
 <h3 class="anchored" data-anchor-id="question-5">Question 5:</h3>
 <p>Generate a sequence of dates from <strong>January 1, 2015</strong> to <strong>December 31, 2025</strong>, spaced by every <strong>two months</strong>. Extract the <strong>year</strong>, <strong>quarter</strong>, and <strong>ISO week number</strong> for each date.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'lubridate' was built under R version 4.4.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'lubridate'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    date, intersect, setdiff, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dates <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">as.Date</span>(<span class="st">"2015-01-01"</span>), <span class="fu">as.Date</span>(<span class="st">"2025-12-31"</span>), <span class="at">by =</span> <span class="st">"2 months"</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>years    <span class="ot">&lt;-</span> <span class="fu">year</span>(dates)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>quarters <span class="ot">&lt;-</span> <span class="fu">quarter</span>(dates)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>iso_weeks <span class="ot">&lt;-</span> <span class="fu">isoweek</span>(dates)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Date =</span> dates,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Year =</span> years,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>                     <span class="at">Quarter =</span> quarters,</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ISO_Week =</span> iso_weeks)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         Date Year Quarter ISO_Week
+1  2015-01-01 2015       1        1
+2  2015-03-01 2015       1        9
+3  2015-05-01 2015       2       18
+4  2015-07-01 2015       3       27
+5  2015-09-01 2015       3       36
+6  2015-11-01 2015       4       44
+7  2016-01-01 2016       1       53
+8  2016-03-01 2016       1        9
+9  2016-05-01 2016       2       17
+10 2016-07-01 2016       3       26
+11 2016-09-01 2016       3       35
+12 2016-11-01 2016       4       44
+13 2017-01-01 2017       1       52
+14 2017-03-01 2017       1        9
+15 2017-05-01 2017       2       18
+16 2017-07-01 2017       3       26
+17 2017-09-01 2017       3       35
+18 2017-11-01 2017       4       44
+19 2018-01-01 2018       1        1
+20 2018-03-01 2018       1        9
+21 2018-05-01 2018       2       18
+22 2018-07-01 2018       3       26
+23 2018-09-01 2018       3       35
+24 2018-11-01 2018       4       44
+25 2019-01-01 2019       1        1
+26 2019-03-01 2019       1        9
+27 2019-05-01 2019       2       18
+28 2019-07-01 2019       3       27
+29 2019-09-01 2019       3       35
+30 2019-11-01 2019       4       44
+31 2020-01-01 2020       1        1
+32 2020-03-01 2020       1        9
+33 2020-05-01 2020       2       18
+34 2020-07-01 2020       3       27
+35 2020-09-01 2020       3       36
+36 2020-11-01 2020       4       44
+37 2021-01-01 2021       1       53
+38 2021-03-01 2021       1        9
+39 2021-05-01 2021       2       17
+40 2021-07-01 2021       3       26
+41 2021-09-01 2021       3       35
+42 2021-11-01 2021       4       44
+43 2022-01-01 2022       1       52
+44 2022-03-01 2022       1        9
+45 2022-05-01 2022       2       17
+46 2022-07-01 2022       3       26
+47 2022-09-01 2022       3       35
+48 2022-11-01 2022       4       44
+49 2023-01-01 2023       1       52
+50 2023-03-01 2023       1        9
+51 2023-05-01 2023       2       18
+52 2023-07-01 2023       3       26
+53 2023-09-01 2023       3       35
+54 2023-11-01 2023       4       44
+55 2024-01-01 2024       1        1
+56 2024-03-01 2024       1        9
+57 2024-05-01 2024       2       18
+58 2024-07-01 2024       3       27
+59 2024-09-01 2024       3       35
+60 2024-11-01 2024       4       44
+61 2025-01-01 2025       1        1
+62 2025-03-01 2025       1        9
+63 2025-05-01 2025       2       18
+64 2025-07-01 2025       3       27
+65 2025-09-01 2025       3       36
+66 2025-11-01 2025       4       44</code></pre>
+</div>
+</div>
 </section>
 <section id="question-6" class="level3">
 <h3 class="anchored" data-anchor-id="question-6">Question 6:</h3>
 <p>Given the following dates, compute the difference in <strong>months</strong> and <strong>weeks</strong> between each consecutive pair.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sample_dates <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"2018-03-15"</span>, <span class="st">"2020-07-20"</span>, <span class="st">"2023-01-10"</span>, <span class="st">"2025-09-05"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>sample_dates <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"2018-03-15"</span>, <span class="st">"2020-07-20"</span>, <span class="st">"2023-01-10"</span>, <span class="st">"2025-09-05"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="question-7-higher-order-functions-with-purrr" class="level3">
 <h3 class="anchored" data-anchor-id="question-7-higher-order-functions-with-purrr">Question 7: Higher-Order Functions with purrr</h3>
 <p>Using <code>map()</code> and <code>map_dbl()</code>, compute the <strong>mean</strong>, <strong>median</strong>, and <strong>standard deviation</strong> for each numeric vector in the following list:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>num_lists <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">16</span>, <span class="dv">25</span>, <span class="dv">36</span>, <span class="dv">49</span>), <span class="fu">c</span>(<span class="fl">2.3</span>, <span class="fl">5.7</span>, <span class="fl">8.1</span>, <span class="fl">11.4</span>), <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>num_lists <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">16</span>, <span class="dv">25</span>, <span class="dv">36</span>, <span class="dv">49</span>), <span class="fu">c</span>(<span class="fl">2.3</span>, <span class="fl">5.7</span>, <span class="fl">8.1</span>, <span class="fl">11.4</span>), <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="question-8-combining-lubridate-and-purrr" class="level3">
 <h3 class="anchored" data-anchor-id="question-8-combining-lubridate-and-purrr">Question 8: Combining lubridate and purrr</h3>
 <p>Given a list of mixed date formats, use <code>map()</code> and <code>possibly()</code> from <code>purrr</code> to safely convert them to <strong>Date</strong> format and extract the <strong>month name</strong>.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>date_strings <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"2023-06-10"</span>, <span class="st">"2022/12/25"</span>, <span class="st">"15-Aug-2021"</span>, <span class="st">"InvalidDate"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>date_strings <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"2023-06-10"</span>, <span class="st">"2022/12/25"</span>, <span class="st">"15-Aug-2021"</span>, <span class="st">"InvalidDate"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="submission" class="level2">
