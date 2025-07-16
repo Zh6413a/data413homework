@@ -222,6 +222,13 @@ Also use R code to round your answer to the nearest tenth</p>
 <section id="question-4" class="level3">
 <h3 class="anchored" data-anchor-id="question-4">Question 4:</h3>
 <p>Write only one line of the code to return only the leap years fo years 2024, 3021, 2000 or 1800, 800, 5050, 600 and 7156. using subsetting with <code>[]</code> and without using built-in functions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>years <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2024</span>, <span class="dv">3021</span>, <span class="dv">2000</span>, <span class="dv">1800</span>, <span class="dv">800</span>, <span class="dv">5050</span>, <span class="dv">600</span>, <span class="dv">7156</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>years[<span class="fu">c</span>(years <span class="sc">%%</span> <span class="dv">4</span> <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> (years <span class="sc">%%</span> <span class="dv">100</span> <span class="sc">!=</span> <span class="dv">0</span> <span class="sc">|</span> years <span class="sc">%%</span> <span class="dv">400</span> <span class="sc">==</span> <span class="dv">0</span>))]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2024 2000  800 7156</code></pre>
+</div>
+</div>
 </section>
 </section>
 <section id="advanced-date-manipulation-with-lubridate" class="level2">
@@ -233,17 +240,17 @@ Also use R code to round your answer to the nearest tenth</p>
 <section id="question-6" class="level3">
 <h3 class="anchored" data-anchor-id="question-6">Question 6:</h3>
 <p>Given the following dates, compute the difference in <strong>months</strong> and <strong>weeks</strong> between each consecutive pair.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sample_dates <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"2018-03-15"</span>, <span class="st">"2020-07-20"</span>, <span class="st">"2023-01-10"</span>, <span class="st">"2025-09-05"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sample_dates <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"2018-03-15"</span>, <span class="st">"2020-07-20"</span>, <span class="st">"2023-01-10"</span>, <span class="st">"2025-09-05"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="question-7-higher-order-functions-with-purrr" class="level3">
 <h3 class="anchored" data-anchor-id="question-7-higher-order-functions-with-purrr">Question 7: Higher-Order Functions with purrr</h3>
 <p>Using <code>map()</code> and <code>map_dbl()</code>, compute the <strong>mean</strong>, <strong>median</strong>, and <strong>standard deviation</strong> for each numeric vector in the following list:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>num_lists <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">16</span>, <span class="dv">25</span>, <span class="dv">36</span>, <span class="dv">49</span>), <span class="fu">c</span>(<span class="fl">2.3</span>, <span class="fl">5.7</span>, <span class="fl">8.1</span>, <span class="fl">11.4</span>), <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>num_lists <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">16</span>, <span class="dv">25</span>, <span class="dv">36</span>, <span class="dv">49</span>), <span class="fu">c</span>(<span class="fl">2.3</span>, <span class="fl">5.7</span>, <span class="fl">8.1</span>, <span class="fl">11.4</span>), <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">50</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="question-8-combining-lubridate-and-purrr" class="level3">
 <h3 class="anchored" data-anchor-id="question-8-combining-lubridate-and-purrr">Question 8: Combining lubridate and purrr</h3>
 <p>Given a list of mixed date formats, use <code>map()</code> and <code>possibly()</code> from <code>purrr</code> to safely convert them to <strong>Date</strong> format and extract the <strong>month name</strong>.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>date_strings <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"2023-06-10"</span>, <span class="st">"2022/12/25"</span>, <span class="st">"15-Aug-2021"</span>, <span class="st">"InvalidDate"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>date_strings <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"2023-06-10"</span>, <span class="st">"2022/12/25"</span>, <span class="st">"15-Aug-2021"</span>, <span class="st">"InvalidDate"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="submission" class="level2">
