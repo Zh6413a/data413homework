@@ -401,6 +401,40 @@ Attaching package: 'lubridate'</code></pre>
 <h3 class="anchored" data-anchor-id="question-8-combining-lubridate-and-purrr">Question 8: Combining lubridate and purrr</h3>
 <p>Given a list of mixed date formats, use <code>map()</code> and <code>possibly()</code> from <code>purrr</code> to safely convert them to <strong>Date</strong> format and extract the <strong>month name</strong>.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>date_strings <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"2023-06-10"</span>, <span class="st">"2022/12/25"</span>, <span class="st">"15-Aug-2021"</span>, <span class="st">"InvalidDate"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>date_strings <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"2023-06-10"</span>, <span class="st">"2022/12/25"</span>, <span class="st">"15-Aug-2021"</span>, <span class="st">"InvalidDate"</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>safe_parse_date <span class="ot">&lt;-</span> <span class="fu">possibly</span>(<span class="cf">function</span>(x) {</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">parse_date_time</span>(x, <span class="at">orders =</span> <span class="fu">c</span>(<span class="st">"ymd"</span>, <span class="st">"y/m/d"</span>, <span class="st">"d-b-Y"</span>))</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>}, <span class="at">otherwise =</span> <span class="cn">NA</span>)</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>parsed_dates <span class="ot">&lt;-</span> <span class="fu">map</span>(date_strings, safe_parse_date)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: All formats failed to parse. No formats found.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>month_names <span class="ot">&lt;-</span> <span class="fu">map_chr</span>(parsed_dates, <span class="cf">function</span>(x) {</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.na</span>(x)) <span class="cn">NA_character_</span> <span class="cf">else</span> <span class="fu">month</span>(x, <span class="at">label =</span> <span class="cn">TRUE</span>, <span class="at">abbr =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Automatic coercion from integer to character was deprecated in purrr 1.0.0.
+ℹ Please use an explicit call to `as.character()` within `map_chr()` instead.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Original_String =</span> <span class="fu">unlist</span>(date_strings),</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Parsed_Date =</span> <span class="fu">as.character</span>(parsed_dates),</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Month_Name =</span> month_names</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Original_String Parsed_Date Month_Name
+1      2023-06-10  1686355200          6
+2      2022/12/25  1671926400         12
+3     15-Aug-2021  1628985600          8
+4     InvalidDate          NA       &lt;NA&gt;</code></pre>
+</div>
+</div>
 </section>
 </section>
 <section id="submission" class="level2">
