@@ -104,6 +104,24 @@ years[c(years %% 4 == 0 & (years %% 100 != 0 | years %% 400 == 0))]
 
 Generate a sequence of dates from **January 1, 2015** to **December 31, 2025**, spaced by every **two months**. Extract the **year**, **quarter**, and **ISO week number** for each date.
 
+```{r}
+library(lubridate)
+
+dates <- seq(as.Date("2015-01-01"), as.Date("2025-12-31"), by = "2 months")
+
+years    <- year(dates)
+quarters <- quarter(dates)
+iso_weeks <- isoweek(dates)
+
+result <- data.frame(Date = dates,
+                     Year = years,
+                     Quarter = quarters,
+                     ISO_Week = iso_weeks)
+
+result
+
+```
+
 ### Question 6:
 
 Given the following dates, compute the difference in **months** and **weeks** between each consecutive pair.
