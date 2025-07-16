@@ -1,0 +1,93 @@
+---
+title: "Review"
+format: html
+editor: visual
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Instructions
+
+1.  **Clone the Homework Repository**\
+    Clone the GitHub repository containing the homework file to your **local machine**.
+
+2.  **Rename the File**\
+    Rename the `.qmd` file from `hw01.qmd` to: `hw01_yourusername.qmd`.\
+
+For example: `hw01_semiyari.qmd`
+
+### Working on Your Homework
+
+-   As you complete each part of the homework:
+
+    -   **Stage** and **commit** your `.qmd` file *after each question/sub-question*, such as `1.1`, `1.2`, etc.\
+    -   **Render** your `.qmd` file to **HTML only** (no PDF or Word formats).\
+    -   **Push** your updates to GitHub after completing each **main question**, such as `1.0`, `2.0`, etc.
+
+> Committing and pushing to GitHub **are graded components** of this assignment.
+
+## Final Checks Before Submission
+
+-   **Re-render** to HTML before your final commit and push.\
+
+-   **Check your output:**\
+
+    -   Make sure **all images display correctly**.\
+    -   Avoid including **excessive output or large datasets** unless asked.
+
+## Final Submission
+
+Once you have finished and pushed your final version:
+
+-   Copy the link of your **GitHub Pages site** (where the rendered HTML is published).
+-   **Post the link** to the Canvas assignment submission page.
+
+```{r}
+# Install pacman if it's not already installed
+if (!require("pacman")) install.packages("pacman")
+
+# Use pacman to install (if needed) and load the packages
+pacman::p_load(pacman, tidyverse,
+               nycflights13)
+```
+
+-   Consider the data in the nycflights13 package.
+
+-   **Problem 2**: Is there a relationship between the age of a plane and its delays?
+
+    ```{r}
+    library(nycflights13)
+    library(dplyr)
+    library(ggplot2)
+
+    planes_age <- planes |>
+      mutate(age = 2013 - year) |>
+      select(tailnum, age)
+
+    flights_with_age <- flights |>
+      left_join(planes_age, by = "tailnum")
+
+    valid_data <- flights_with_age |>
+      filter(!is.na(age), !is.na(arr_delay))
+
+
+
+    ggplot(valid_data, aes(x = age, y = arr_delay)) +
+      geom_point(alpha = 0.1) +
+      geom_smooth(method = "lm", se = FALSE, color = "blue") +
+      labs(title = "Scatter plot of Plane Age vs Arrival Delay",
+           x = "Plane Age (years)",
+           y = "Arrival Delay (minutes)")
+
+    correlation <- cor(valid_data$age, valid_data$arr_delay)
+
+    print(correlation)
+
+
+    ```
+
+    We can not observe any patter that would indicate a relationship on the scatter plot. The correlation statistic is -0.01767153 which indicates a very small negative relationship. In conclusion there is no significant relationship.
+
+-   **Problem 3**: Find the 10 days of the year that have the highest median departure delay, then select all flights from those 10 days.
