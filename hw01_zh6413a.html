@@ -203,7 +203,53 @@ Rename the <code>.qmd</code> file from <code>hw01.qmd</code> to: <code>hw01_your
 </div>
 </div>
 <p>We can not observe any patter that would indicate a relationship on the scatter plot. The correlation statistic is -0.01767153 which indicates a very small negative relationship. In conclusion there is no significant relationship.</p></li>
-<li><p><strong>Problem 3</strong>: Find the 10 days of the year that have the highest median departure delay, then select all flights from those 10 days.</p></li>
+<li><p><strong>Problem 3</strong>: Find the 10 days of the year that have the highest median departure delay, then select all flights from those 10 days.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>flights<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="fu">paste</span>(flights<span class="sc">$</span>year, flights<span class="sc">$</span>month, flights<span class="sc">$</span>day, <span class="at">sep =</span> <span class="st">"-"</span>))</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>temp_summary <span class="ot">&lt;-</span> <span class="fu">summarize</span>(<span class="fu">group_by</span>(flights, date), <span class="at">median_dep_delay =</span> <span class="fu">median</span>(dep_delay, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>temp_summary <span class="ot">&lt;-</span> <span class="fu">arrange</span>(temp_summary, <span class="fu">desc</span>(median_dep_delay))</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>top_10_days <span class="ot">&lt;-</span> <span class="fu">slice_head</span>(temp_summary, <span class="at">n =</span> <span class="dv">10</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>top_10_days</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 2
+   date       median_dep_delay
+   &lt;date&gt;                &lt;dbl&gt;
+ 1 2013-03-08             58  
+ 2 2013-07-01             30  
+ 3 2013-07-23             19  
+ 4 2013-12-17             18  
+ 5 2013-06-13             16  
+ 6 2013-05-08             14  
+ 7 2013-04-12             13  
+ 8 2013-06-25             13  
+ 9 2013-06-28             13  
+10 2013-12-23             12.5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>flights_top10days <span class="ot">&lt;-</span> <span class="fu">filter</span>(flights, date <span class="sc">%in%</span> top_10_days<span class="sc">$</span>date)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>flights_top10days</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9,806 × 20
+    year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
+   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
+ 1  2013    12    17        4           2359         5      459            437
+ 2  2013    12    17        8           2159       129      155           2322
+ 3  2013    12    17       10           1930       280      313           2238
+ 4  2013    12    17       12           1740       392      135           1900
+ 5  2013    12    17       14           2130       164      313             18
+ 6  2013    12    17       14           2250        84      122           2356
+ 7  2013    12    17       29           2055       214      303           2332
+ 8  2013    12    17       36           2150       166      212           2311
+ 9  2013    12    17       38           2250       108      206              8
+10  2013    12    17       38           2035       243      140           2210
+# ℹ 9,796 more rows
+# ℹ 12 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;,
+#   tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;,
+#   hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;, date &lt;date&gt;</code></pre>
+</div>
+</div></li>
 </ul>
 </section>
 
