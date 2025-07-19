@@ -127,10 +127,16 @@ library(dplyr)
     Replace `__` with `NA`
 
     ```{r}
+    library(dplyr)
 
+    # Replace __ with NA
+
+    state_table <- state_table |>
+
+      mutate(across(everything(), ~ ifelse(. == "__" | . == "—" | . == "", NA, .)))
     ```
 
-    ```{}
+    ```         
     ```
 
     \
