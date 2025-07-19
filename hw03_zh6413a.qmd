@@ -149,7 +149,23 @@ Please download a duck database. <https://data-science-master.github.io/lectures
 
 -   Use `duckdb()` and `DBI::dbConnect()` to create a connection to "flights.duckdb".
 
+    ```{r}
+    # Load required libraries
+    library(DBI)
+    library(duckdb)
+
+    # Create data directory
+    if (!dir.exists("data")) {
+      dir.create("data")
+    }
+
+    # Download the flights database
+    download.file("https://data-science-master.github.io/lectures/data/flights.duckdb", destfile = "./data/flights.duckdb", mode = "wb")
+
+    ```
+
 ```{r}
+
      practcon<- dbConnect(duckdb(dbdir = "./data/flights.duckdb", read_only = FALSE))
 
 ```
@@ -169,7 +185,6 @@ Please download a duck database. <https://data-science-master.github.io/lectures
 -   Check is the connection has established
 
 ```{r}
-install.packages("DBI")  # If not already installed
 library(DBI)
 
 
@@ -194,6 +209,21 @@ Print out a summary of the tables in this database.
 ### Problem 2: Select Flights from a Specific Carrier
 
 Write a SQL query to find all flights from the carrier "United Air Lines Inc.".
+
+```{sql, connection=practcon}
+
+-- company list
+SELECT DISTINCT carrier
+FROM flights;
+
+-- selecting United Airlines(UA) flights
+SELECT *
+FROM flights
+WHERE carrier = 'UA';
+
+
+
+```
 
 ### Problem 3: Count the Number of Flights for Each Carrier
 
