@@ -75,7 +75,51 @@ library(dplyr)
 
     ```{r}
 
+    # Fix duplicate column names first
+    colnames(state_table) <- make.names(colnames(state_table), unique = TRUE)
 
+
+    # Set column names accorning to the table
+    colnames(state_table) <- c("State_Territory", "Population_2024_Est", "Population_2020_Census",              "Change_Percent_2010_2020", "Change_Absolute_2010_2020",
+    "House_Seats", "House_Seats_Change", "Pop_Per_Electoral_Vote",              "Pop_Per_House_Seat", "Percent_of_US_2020", "Percent_of_EC_2020")
+
+    # Ensure each data type is correct
+
+    state_table <- state_table |>
+
+      mutate(
+    State_Territory = as.character(State_Territory),
+
+    Population_2024_Est = as.numeric(gsub("[^0-9]", "", Population_2024_Est)),
+
+    Population_2020_Census = as.numeric(gsub("[^0-9]", "", Population_2020_Census)),
+
+    Change_Percent_2010_2020 = as.numeric(gsub("[^0-9.-]", "", Change_Percent_2010_2020)),
+
+    Change_Absolute_2010_2020 = as.numeric(gsub("[^0-9.-]", "", Change_Absolute_2010_2020)),
+
+    House_Seats = as.numeric(gsub("[^0-9]", "", House_Seats)),
+
+    House_Seats_Change = as.numeric(gsub("[^0-9.-]", "", House_Seats_Change)),
+
+    Pop_Per_Electoral_Vote = as.numeric(gsub("[^0-9]", "", Pop_Per_Electoral_Vote)),
+
+    Pop_Per_House_Seat = as.numeric(gsub("[^0-9]", "", Pop_Per_House_Seat)),
+
+    Percent_of_US_2020 = as.numeric(gsub("[^0-9.]", "", Percent_of_US_2020)),
+
+    Percent_of_EC_2020 = as.numeric(gsub("[^0-9.]", "", Percent_of_EC_2020))
+    )
+
+     
+    #final results
+    print("Final column names:")
+    print(colnames(state_table))
+    print("\nColumn classes:")
+    print(sapply(state_table, class))
+    print("\nFirst few rows:")
+    print(head(state_table))
+    print(paste("\nTotal rows:", nrow(state_table)))
     ```
 
     \
